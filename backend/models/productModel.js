@@ -72,7 +72,7 @@ const productSchema = new Schema(
       default: 0,
     },
   },
-  { timeStamp: true } // automatically add two fields to documents: createdAt, updatedAt
+  { timestamps: true } // automatically add two fields to documents: createdAt, updatedAt
 );
 
 const Product = mongoose.model("Product", productSchema);
