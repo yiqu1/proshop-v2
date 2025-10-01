@@ -1,0 +1,30 @@
+{
+  "name": "proshop-v2",
+  "version": "1.0.0",
+  "description": "eCommerce application built with the MERN stack",
+  "homepage": "https://github.com/yiqu1/proshop-v2#readme",
+  "bugs": {
+    "url": "https://github.com/yiqu1/proshop-v2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiqu1/proshop-v2.git"
+  },
+  "license": "ISC",
+  "author": "Ethan Chou",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  }
+}
