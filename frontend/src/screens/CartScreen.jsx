@@ -9,18 +9,29 @@ import {
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message.jsx";
-import { addToCart } from "../slices/cartSlice.js";
+import { addToCart, removeFromCart } from "../slices/cartSlice.js";
 
 const CartScreen = () => {
   // read data from Redux store, takes whole state and returns the part you want
   const { cartItems, itemsPrice } = useSelector((state) => state.cart);
 
-  // updates cart state in the Redux store.
+  // modifies and updates cart state in the Redux store.
   const dispatch = useDispatch();
   const addToCartHandler = (item, qty) => {
     dispatch(addToCart({ ...item, qty }));
+  };
+
+  // remove item from cartItems
+  const removeFromCartHandler = (productId) => {
+    dispatch(removeFromCart(productId));
+  };
+
+  // If not logged in, send them to /login, if login, proceed to shipping page
+  const navigate = useNavigate();
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
   };
 
   return (
@@ -63,7 +74,11 @@ const CartScreen = () => {
                   </Col>
 
                   <Col md={2}>
-                    <Button type="button" variant="light">
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => removeFromCartHandler(item._id)}
+                    >
                       <FaTrash />
                     </Button>
                   </Col>
@@ -89,6 +104,7 @@ const CartScreen = () => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>

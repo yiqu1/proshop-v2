@@ -7,7 +7,6 @@ import logo from "../assets/logo.png";
 const Header = () => {
   // read data from Redux store, takes whole state and returns the part you want
   const { cartItems } = useSelector((state) => state.cart);
-  console.log(cartItems);
 
   return (
     <header>

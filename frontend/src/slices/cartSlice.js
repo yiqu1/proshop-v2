@@ -23,13 +23,22 @@ const cartSlice = createSlice({
         state.cartItems.push(item);
       }
 
+      // updates price related states in the cart state
+      return updateCart(state);
+    },
+
+    // action's payload is the productId
+    removeFromCart: (state, action) => {
+      // condition is true are included in newArray
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+
       return updateCart(state);
     },
   },
 });
 
 // takes addToCart action creator from cartSlice.actions and exports it.
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 // import it into Redux store:
 export default cartSlice.reducer;
