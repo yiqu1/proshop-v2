@@ -5,7 +5,6 @@ import { BASE_URL } from "../constants";
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
 });
-console.log(BASE_URL);
 
 // creat an API “slice” of Redux store. It manages server state (data fetched from backend) and caches it automatically.
 export const apiSlice = createApi({

@@ -5,7 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
+    // forward requests starting with /api to backend. This avoids CORS issues during development.
     proxy: {
+      // Any request your frontend makes to /api/... will be forwarded to http://localhost:5000/api/....
       "/api": "http://localhost:5000",
     },
   },
