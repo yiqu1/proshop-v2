@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 connectDB();
 
@@ -13,6 +14,9 @@ const app = express();
 app.use(express.json());
 // parses x-www-form-urlencoded body
 app.use(express.urlencoded({ extended: true }));
+
+// add cookie-parser, can access cookies in route handlers, Without it, req.cookies would be undefined.
+app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 
