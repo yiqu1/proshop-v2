@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
   {
@@ -25,7 +25,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// define instance method on User documents, return true/false
+// define instance method on User documents, return a Promise of true/false
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
