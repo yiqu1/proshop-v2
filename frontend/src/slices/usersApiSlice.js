@@ -23,8 +23,19 @@ const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+
+    // backend register api
+    register: builder.mutation({
+      // send name, email, password
+      query: (data) => ({
+        url: USERS_URL,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
 // export custom hooks
-export const { useLoginMutation, useLogoutMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation } =
+  usersApiSlice;
