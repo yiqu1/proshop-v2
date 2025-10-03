@@ -5,6 +5,7 @@ import { apiSlice } from "./apiSlice.js";
 // Useful if you want to split API logic across multiple files (e.g., productsApiSlice.js, usersApiSlice.js) but still share the same apiSlice reducer and middleware.
 const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // hit backend /auth api
     login: builder.mutation({
       // send email and password
       query: (data) => ({
@@ -14,8 +15,16 @@ const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    // hit backend /logout api
+    logout: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/logout`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
 // export custom hooks
-export const { useLoginMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation } = usersApiSlice;

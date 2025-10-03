@@ -1,8 +1,11 @@
 import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../assets/logo.png";
+import { useLogoutMutation } from "../slices/usersApiSlice.js";
+import { logout } from "../slices/authSlice.js";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   // read data from Redux store, takes whole state and returns the part you want
@@ -10,8 +13,20 @@ const Header = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const logoutHandler = () => {
-    console.log("logour");
+  // Mutation hooks returns an array with 2 things, login → a function, An object with the mutation state
+  const [logoutApiCall] = useLogoutMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      // .unwrap() → extracts the actual data or throws an error.
+      await logoutApiCall().unwrap();
+      // no action body, clear localStorage
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
