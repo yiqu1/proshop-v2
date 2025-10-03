@@ -22,5 +22,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
+// export custom hooks
 export const { useGetProductsQuery, useGetProductDetailsQuery } =
   productsApiSlice;
