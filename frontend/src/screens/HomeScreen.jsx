@@ -5,6 +5,7 @@ import Product from "../components/Product.jsx";
 import { useGetProductsQuery } from "../slices/productsApiSlice.js";
 
 const HomeScreen = () => {
+  // Query hooks return an object with the query state
   const { data: products, isLoading, error } = useGetProductsQuery();
 
   return (
