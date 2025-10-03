@@ -5,7 +5,8 @@ import User from "../models/userModel.js";
 // protect middleware, used when need user logged in
 export const protect = asyncHandler(async (req, res, next) => {
   let token;
-
+  
+  // req.cookies is an object with all cookies sent by the client, including jwt
   if (req.cookies && req.cookies.jwt) {
     try {
       token = req.cookies.jwt;

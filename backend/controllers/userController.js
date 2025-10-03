@@ -28,7 +28,13 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send("logout user");
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    // sets the cookie to a date in the past, effectively deleting it from the browser.
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // private
