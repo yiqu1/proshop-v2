@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import orderRouters from "./routes/orderRoutes.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 connectDB();
@@ -24,6 +25,7 @@ app.get("/", (req, res) => res.send("API is running..."));
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRouters);
 
 app.use(notFound);
 app.use(errorHandler);
