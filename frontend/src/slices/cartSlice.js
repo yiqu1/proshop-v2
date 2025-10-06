@@ -4,7 +4,7 @@ import { updateCart } from "../utils/cartUtil";
 // JSON.parse converts to js object
 const initialState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
-  : { cartItems: [] };
+  : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -34,11 +34,18 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
+
+    // save shipping address
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      return updateCart(state);
+    },
   },
 });
 
 // takes addToCart action creator from cartSlice.actions and exports it.
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress } =
+  cartSlice.actions;
 
 // import it into Redux store:
 export default cartSlice.reducer;
