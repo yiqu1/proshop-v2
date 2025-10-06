@@ -48,6 +48,13 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload;
       return updateCart(state);
     },
+
+    // clear cart items once creating the order
+    clearCartItems: (state) => {
+      state.cartItems = [];
+      // save cartItems to localStorage
+      return updateCart(state);
+    },
   },
 });
 
@@ -57,6 +64,7 @@ export const {
   removeFromCart,
   saveShippingAddress,
   savePaymentMethod,
+  clearCartItems,
 } = cartSlice.actions;
 
 // import it into Redux store:
