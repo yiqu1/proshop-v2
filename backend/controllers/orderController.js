@@ -48,16 +48,16 @@ const getMyOrders = asyncHandler(async (req, res) => {
   res.status(200).json(orders);
 });
 
-// get order by id, admin
+// get order by id, protect
 const getOrderById = asyncHandler(async (req, res) => {
   // populate("user") fetches  User document whose _id matches user field, Only include name and email fields of User document.
   const order = await Order.findById(req.params.orderId).populate(
     "user",
-    "name, email"
+    "name email"
   );
 
   if (order) {
-    res.status.json(order);
+    res.status(200).json(order);
   } else {
     res.status(404);
     throw new Error("Order not found");
