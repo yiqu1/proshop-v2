@@ -54,6 +54,7 @@ const orderSchema = new Schema(
       type: String,
       required: true,
     },
+    // from PayPal
     paymentResult: {
       id: String,
       status: String,
