@@ -1,4 +1,4 @@
-import { ORDERS_URL, PAYPAL_URL } from "../constants.js";
+import { ORDERS_URL, PAYPAL_URL, USERS_URL } from "../constants.js";
 import { apiSlice } from "./apiSlice.js";
 
 const ordersApiSlice = apiSlice.injectEndpoints({
@@ -37,6 +37,14 @@ const ordersApiSlice = apiSlice.injectEndpoints({
         body: paymentResult,
       }),
     }),
+
+    // hit backend get logged in user's orders
+    getMyOrders: builder.query({
+      query: () => ({
+        url: `${ORDERS_URL}/mine`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -46,4 +54,5 @@ export const {
   useGetOrderDetailsQuery,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
+  useGetMyOrdersQuery,
 } = ordersApiSlice;
