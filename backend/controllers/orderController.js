@@ -97,9 +97,10 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
 // get all orders, admin
 const getOrders = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "get all orders",
-  });
+  // populate("user") fetches  User document whose _id matches user field, Only include name and id fields of User document.
+  const orders = await Order.find().populate("user", "id name");
+
+  res.status(200).json(orders);
 });
 
 export {
