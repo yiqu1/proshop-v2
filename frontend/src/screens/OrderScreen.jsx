@@ -74,7 +74,7 @@ const OrderScreen = () => {
     toast.success("Payment successful");
   }
 
-  // tell PayPal: “I want to charge the user this amount.”
+  // user clicks the button, PayPal opens a popup window for login/approval. createOrder is called inside that popup process to generate the payment order.
   function createOrder(data, actions) {
     return actions.order
       .create({
