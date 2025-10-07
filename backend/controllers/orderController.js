@@ -88,19 +88,29 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-// update order to delivered, admin
-const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "update order to delivered",
-  });
-});
-
 // get all orders, admin
 const getOrders = asyncHandler(async (req, res) => {
   // populate("user") fetches  User document whose _id matches user field, Only include name and id fields of User document.
   const orders = await Order.find().populate("user", "id name");
 
   res.status(200).json(orders);
+});
+
+// update order to delivered, admin
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.orderId);
+
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+
+    const updatedOrder = order.save();
+
+    res.status(200).json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
 });
 
 export {
