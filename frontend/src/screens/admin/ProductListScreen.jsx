@@ -2,7 +2,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import Message from "../../components/Message.jsx";
 import Loader from "../../components/Loader.jsx";
-import { FaTimes, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
   useCreateProductMutation,

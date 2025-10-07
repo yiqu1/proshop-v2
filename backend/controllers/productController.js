@@ -18,7 +18,7 @@ const getProduct = asyncHandler(async (req, res) => {
   throw new Error("Resource not found");
 });
 
-// admin, create a product
+// admin, create a sample product
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample name",
@@ -37,4 +37,28 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(createProduct);
 });
 
-export { getProducts, getProduct, createProduct };
+// admin, update a product
+const updateProduct = asyncHandler(async (req, res) => {
+  const { name, price, image, brand, category, countInStock, description } =
+    req.body;
+
+  const product = await Product.findById(req.params.productId);
+
+  if (product) {
+    product.name = name;
+    product.price = price;
+    product.image = image;
+    product.brand = brand;
+    product.category = category;
+    product.countInStock = countInStock;
+    product.description = description;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Resource not found");
+  }
+});
+
+export { getProducts, getProduct, createProduct, updateProduct };

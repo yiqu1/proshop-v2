@@ -33,6 +33,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       // mark 'Product' cache as stale, → getProducts refetches automatically.
       invalidatesTags: ["Product"],
     }),
+
+    // update a product for admin user
+    updateProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/${data.productId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -41,4 +51,5 @@ export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
 } = productsApiSlice;
