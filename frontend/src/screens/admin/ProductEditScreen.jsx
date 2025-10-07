@@ -8,6 +8,7 @@ import Message from "../../components/Message.jsx";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from "../../slices/productsApiSlice.js";
 
 const ProductEditScreen = () => {
@@ -27,6 +28,23 @@ const ProductEditScreen = () => {
     error,
     refetch,
   } = useGetProductDetailsQuery(productId);
+
+  // extract image upload function
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
+  // upload image
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+
+    try {
+      const response = await uploadProductImage(formData).unwrap();
+      toast.success(response.message);
+      setImage(response.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   // fill in product state
   useEffect(() => {
@@ -109,7 +127,21 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            {/* Image input placeholder */}
+            <Form.Group controlId="image" className="my-2">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter image url"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              ></Form.Control>
+
+              <Form.Control
+                type="file"
+                label="Choose File"
+                onChange={uploadFileHandler}
+              ></Form.Control>
+            </Form.Group>
 
             <Form.Group controlId="brand" className="my-2">
               <Form.Label>Brand</Form.Label>

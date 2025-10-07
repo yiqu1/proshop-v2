@@ -45,7 +45,8 @@ const upload = multer({
 router.post("/", upload.single("image"), (req, res) => {
   res.send({
     message: "Image uploaded",
-    image: `/${req.file.path}`,
+    // changes all \ to /
+    image: `/${req.file.path.replace(/\\/g, "/")}`,
   });
 });
 
