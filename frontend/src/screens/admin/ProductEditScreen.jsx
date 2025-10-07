@@ -30,11 +30,12 @@ const ProductEditScreen = () => {
   } = useGetProductDetailsQuery(productId);
 
   // extract image upload function
-  const [uploadProductImage, { isLoading: loadingUpload }] =
-    useUploadProductImageMutation();
+  const [uploadProductImage] = useUploadProductImageMutation();
   // upload image
   const uploadFileHandler = async (e) => {
+    // used to construct key/value pairs for sending multipart/form-data requests (commonly used for file uploads).
     const formData = new FormData();
+    // "image" → name of the field the server expects (matches upload.single("image") in multer route).
     formData.append("image", e.target.files[0]);
 
     try {
