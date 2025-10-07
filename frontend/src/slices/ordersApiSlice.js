@@ -20,6 +20,14 @@ const ordersApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
 
+    // Fetch PayPal Client ID from backend and keep it cached 5s
+    getPayPalClientId: builder.query({
+      query: () => ({
+        url: PAYPAL_URL,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+
     // pay order, query function only accepts one argument
     payOrder: builder.mutation({
       query: ({ orderId, paymentResult }) => ({
@@ -29,14 +37,6 @@ const ordersApiSlice = apiSlice.injectEndpoints({
         body: paymentResult,
       }),
     }),
-
-    // Fetch PayPal Client ID from backend and keep it cached 5s
-    getPayPalClientId: builder.query({
-      query: () => ({
-        url: PAYPAL_URL,
-      }),
-      keepUnusedDataFor: 5,
-    }),
   }),
 });
 
@@ -44,6 +44,6 @@ const ordersApiSlice = apiSlice.injectEndpoints({
 export const {
   useCreateOrderMutation,
   useGetOrderDetailsQuery,
-  usePayOrderMutation,
   useGetPayPalClientIdQuery,
+  usePayOrderMutation,
 } = ordersApiSlice;

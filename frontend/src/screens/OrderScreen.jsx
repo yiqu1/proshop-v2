@@ -29,6 +29,7 @@ const OrderScreen = () => {
     error,
   } = useGetOrderDetailsQuery(orderId);
 
+  // get PayPal clientID from backend, and then load PayPal SDK script using that ID.
   const {
     data: paypal,
     isLoading: loadingPayPal,
@@ -55,9 +56,57 @@ const OrderScreen = () => {
         }
       }
     }
-  }, [order, paypal.clientId, paypalDispatch, loadingPayPal, errorPayPal]);
+  }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal]);
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+  // a simpler way to understand onApprove without PayPal
+  async function onApproveTest() {
+    // manually send a payment result to backend.
+    await payOrder({
+      orderId,
+      // paymentResult mimics what PayPal normally sends. Here it’s just a fake object { payer: {} }
+      paymentResult: {
+        payer: {},
+      },
+    });
+
+    refetch();
+    toast.success("Payment successful");
+  }
+
+  // tell PayPal: “I want to charge the user this amount.”
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  }
+
+  // runs automatically after user successfully approves a payment in PayPal.
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (paymentResult) {
+      try {
+        // calls backend api
+        await payOrder({ orderId, paymentResult });
+        // reloads the order details
+        refetch();
+        toast.success("Payment successful");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    });
+  }
+
+  function onError(err) {
+    toast.error(err.message);
+  }
 
   return isLoading ? (
     <Loader />
@@ -163,6 +212,34 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              {/* if order is not paid, show paypal button */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loadingPay && <Loader />}
+
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      <Button
+                        onClick={onApproveTest}
+                        style={{ marginBottom: "10px" }}
+                      >
+                        Test Pay Order
+                      </Button>
+
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
