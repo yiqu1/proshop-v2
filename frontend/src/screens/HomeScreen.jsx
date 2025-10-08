@@ -5,6 +5,7 @@ import Product from "../components/Product.jsx";
 import { useGetProductsQuery } from "../slices/productsApiSlice.js";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../components/Paginate.jsx";
+import ProductCarousel from "../components/ProductCarousel.jsx";
 
 const HomeScreen = () => {
   // Query hooks return an object with the query state
@@ -19,10 +20,12 @@ const HomeScreen = () => {
 
   return (
     <>
-      {keyword && (
+      {keyword ? (
         <Link to="/" className="btn btn-light mb-4">
           Go Back
         </Link>
+      ) : (
+        <ProductCarousel />
       )}
 
       {isLoading ? (

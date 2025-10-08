@@ -17,7 +17,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const filter = req.query.keyword
     ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
-  
+
   // total number of products matching the filter
   const count = await Product.countDocuments(filter);
 
@@ -139,6 +139,13 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// get top 3 rated products for carousel
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find().sort({ rating: -1 }).limit(3);
+
+  res.status(200).json(products);
+});
+
 export {
   getProducts,
   getProduct,
@@ -146,4 +153,5 @@ export {
   updateProduct,
   deleteProduct,
   createProductReview,
+  getTopProducts,
 };
