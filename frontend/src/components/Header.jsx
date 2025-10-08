@@ -6,6 +6,7 @@ import logo from "../assets/logo.png";
 import { useLogoutMutation } from "../slices/usersApiSlice.js";
 import { logout } from "../slices/authSlice.js";
 import { useNavigate } from "react-router-dom";
+import SearchBox from "./SearchBox.jsx";
 
 const Header = () => {
   // read data from Redux store, takes whole state and returns the part you want
@@ -44,6 +45,8 @@ const Header = () => {
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <SearchBox />
+
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
