@@ -7,6 +7,7 @@ const reviewSchema = new Schema(
       required: true,
       ref: "User",
     },
+    // user name
     name: {
       type: String,
       required: true,
