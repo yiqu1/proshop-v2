@@ -10,17 +10,25 @@ import Product from "../models/productModel.js";
 const getProducts = asyncHandler(async (req, res) => {
   // two products per page
   const pageSize = 4;
-  // current page number
+  // current page number, req.query -> { pageNumber: '1' }
   const currentPage = +req.query.pageNumber || 1;
-  // count documents
-  const count = await Product.countDocuments();
+  // filter products by a search keyword.
+  // If keyword is { name: { $regex: 'phone', $options: 'i' } } → returns products whose name contains 'phone' (case-insensitive).
+  const filter = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+  
+  // total number of products matching the filter
+  const count = await Product.countDocuments(filter);
 
-  const products = await Product.find()
+  const products = await Product.find(filter)
     // only return pageSize number of products (e.g. 2 per page).
     .limit(pageSize)
     .skip(pageSize * (currentPage - 1));
 
-  res.status(200).json({ products, currentPage, pages: Math.ceil(count / pageSize) });
+  res
+    .status(200)
+    .json({ products, currentPage, pages: Math.ceil(count / pageSize) });
 });
 
 const getProduct = asyncHandler(async (req, res) => {

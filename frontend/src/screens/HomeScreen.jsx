@@ -10,9 +10,12 @@ const HomeScreen = () => {
   // Query hooks return an object with the query state
   // const { data: products, isLoading, error } = useGetProductsQuery();
 
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
   // paginate products, data: products, currentPage, pages
-  const { data, isLoading, error } = useGetProductsQuery(pageNumber);
+  const { data, isLoading, error } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
 
   return (
     <>
@@ -35,7 +38,11 @@ const HomeScreen = () => {
           </Row>
 
           {/* paginate page bar */}
-          <Paginate pages={data.pages} currentPage={data.currentPage} />
+          <Paginate
+            pages={data.pages}
+            currentPage={data.currentPage}
+            keyword={keyword}
+          />
         </>
       )}
     </>

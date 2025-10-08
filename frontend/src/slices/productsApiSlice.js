@@ -17,10 +17,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
     // paginate products
     getProducts: builder.query({
-      query: (pageNumber) => ({
+      query: ({ pageNumber, keyword }) => ({
         url: PRODUCTS_URL,
+        // RTK makes a request: ?pageNumber=2 -> backend: req.query.pageNumber
         params: {
           pageNumber,
+          keyword,
         },
       }),
       // keep this data in the cache for 5 seconds after the last component stops using it.

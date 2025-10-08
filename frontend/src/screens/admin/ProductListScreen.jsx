@@ -15,7 +15,9 @@ import Paginate from "../../components/Paginate.jsx";
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
   // paginate products, data: products, currentPage, pages
-  const { data, isLoading, error, refetch } = useGetProductsQuery(pageNumber);
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
