@@ -1,9 +1,26 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 
+// const getProducts = asyncHandler(async (req, res) => {
+//   const products = await Product.find();
+//   res.status(200).json(products);
+// });
+
+// paginate product
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json(products);
+  // two products per page
+  const pageSize = 2;
+  // current page number
+  const currentPage = +req.query.pageNumber || 1;
+  // count documents
+  const count = await Product.countDocuments();
+
+  const products = await Product.find()
+    // only return pageSize number of products (e.g. 2 per page).
+    .limit(pageSize)
+    .skip(pageSize * (currentPage - 1));
+
+  res.status(200).json({ products, currentPage, pages: Math.ceil(count / pageSize) });
 });
 
 const getProduct = asyncHandler(async (req, res) => {

@@ -5,9 +5,23 @@ import { apiSlice } from "./apiSlice.js";
 // Useful if you want to split API logic across multiple files (e.g., productsApiSlice.js, usersApiSlice.js) but still share the same apiSlice reducer and middleware.
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    // getProducts: builder.query({
+    //   query: () => ({
+    //     url: PRODUCTS_URL,
+    //   }),
+    //   // keep this data in the cache for 5 seconds after the last component stops using it.
+    //   keepUnusedDataFor: 5,
+    //   // mark cached data with this tag
+    //   providesTags: ["Product"],
+    // }),
+
+    // paginate products
     getProducts: builder.query({
-      query: () => ({
+      query: (pageNumber) => ({
         url: PRODUCTS_URL,
+        params: {
+          pageNumber,
+        },
       }),
       // keep this data in the cache for 5 seconds after the last component stops using it.
       keepUnusedDataFor: 5,
