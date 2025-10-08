@@ -19,6 +19,7 @@ import {
   useGetProductDetailsQuery,
 } from "../slices/productsApiSlice.js";
 import { toast } from "react-toastify";
+import Meta from "../components/Meta.jsx";
 
 const ProductScreen = () => {
   const { productId } = useParams();
@@ -78,6 +79,8 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title={product.name} />
+
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />

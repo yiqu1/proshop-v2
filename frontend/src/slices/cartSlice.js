@@ -40,21 +40,24 @@ const cartSlice = createSlice({
     saveShippingAddress: (state, action) => {
       state.shippingAddress = action.payload;
       // save shippingAddress to localStorage
-      return updateCart(state);
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     // save payment method
     savePaymentMethod: (state, action) => {
       state.paymentMethod = action.payload;
-      return updateCart(state);
+      localStorage.setItem("cart", JSON.stringify(state));
     },
 
     // clear cart items once creating the order
     clearCartItems: (state) => {
       state.cartItems = [];
       // save cartItems to localStorage
-      return updateCart(state);
+      localStorage.setItem("cart", JSON.stringify(state));
     },
+
+    // return initial cart state
+    resetCart: () => initialState,
   },
 });
 
@@ -65,6 +68,7 @@ export const {
   saveShippingAddress,
   savePaymentMethod,
   clearCartItems,
+  resetCart,
 } = cartSlice.actions;
 
 // import it into Redux store:

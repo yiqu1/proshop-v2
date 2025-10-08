@@ -1,24 +1,17 @@
-import {
-  Row,
-  Col,
-  ListGroup,
-  Image,
-  Button,
-  Card,
-} from "react-bootstrap";
-import Message from "../components/Message.jsx";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useEffect } from "react";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Loader from "../components/Loader.jsx";
+import Message from "../components/Message.jsx";
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
 } from "../slices/ordersApiSlice.js";
-import { Link, useParams } from "react-router-dom";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import { toast } from "react-toastify";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const OrderScreen = () => {
   const { orderId } = useParams();
@@ -69,7 +62,7 @@ const OrderScreen = () => {
       paymentResult: {
         payer: {},
       },
-    });
+    }).unwrap();
 
     refetch();
     toast.success("Payment successful");
@@ -127,7 +120,7 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant="danger" />
+    <Message variant="danger">{error?.data?.message || error.error}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>

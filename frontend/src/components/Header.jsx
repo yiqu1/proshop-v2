@@ -7,6 +7,7 @@ import { useLogoutMutation } from "../slices/usersApiSlice.js";
 import { logout } from "../slices/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "./SearchBox.jsx";
+import { resetCart } from "../slices/cartSlice.js";
 
 const Header = () => {
   // read data from Redux store, takes whole state and returns the part you want
@@ -24,6 +25,8 @@ const Header = () => {
       await logoutApiCall().unwrap();
       // no action body, clear localStorage
       dispatch(logout());
+      // reset initial cart state
+      dispatch(resetCart);
       navigate("/login");
     } catch (err) {
       console.error(err);

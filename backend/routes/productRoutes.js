@@ -9,6 +9,7 @@ import {
   getTopProducts,
 } from "../controllers/productController.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
+import checkObjectId from "../middleware/checkObjectId.js";
 const router = express.Router();
 
 router.route("/").get(getProducts).post(protect, admin, createProduct);
@@ -19,11 +20,13 @@ router.get("/top", getTopProducts);
 
 router
   .route("/:productId")
-  .get(getProduct)
-  .put(protect, admin, updateProduct)
-  .delete(protect, admin, deleteProduct);
+  .get(checkObjectId, getProduct)
+  .put(protect, admin, checkObjectId, updateProduct)
+  .delete(protect, admin, checkObjectId, deleteProduct);
 
 // product review routes
-router.route("/:productId/reviews").post(protect, createProductReview);
+router
+  .route("/:productId/reviews")
+  .post(protect, checkObjectId, createProductReview);
 
 export default router;
