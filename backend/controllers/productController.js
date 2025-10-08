@@ -9,7 +9,7 @@ import Product from "../models/productModel.js";
 // paginate product
 const getProducts = asyncHandler(async (req, res) => {
   // two products per page
-  const pageSize = 2;
+  const pageSize = 4;
   // current page number
   const currentPage = +req.query.pageNumber || 1;
   // count documents

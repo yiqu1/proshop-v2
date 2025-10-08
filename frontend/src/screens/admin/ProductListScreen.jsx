@@ -9,9 +9,13 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../slices/productsApiSlice.js";
+import { useParams } from "react-router-dom";
+import Paginate from "../../components/Paginate.jsx";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+  // paginate products, data: products, currentPage, pages
+  const { data, isLoading, error, refetch } = useGetProductsQuery(pageNumber);
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
@@ -79,7 +83,7 @@ const ProductListScreen = () => {
             </thead>
 
             <tbody>
-              {products.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
 
@@ -110,6 +114,9 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
+
+          {/* paginate productlist bar */}
+          <Paginate pages={data.pages} currentPage={data.currentPage} isAdmin />
         </>
       )}
     </>

@@ -4,13 +4,13 @@ import Message from "../components/Message.jsx";
 import Product from "../components/Product.jsx";
 import { useGetProductsQuery } from "../slices/productsApiSlice.js";
 import { useParams } from "react-router-dom";
+import Paginate from "../components/Paginate.jsx";
 
 const HomeScreen = () => {
   // Query hooks return an object with the query state
   // const { data: products, isLoading, error } = useGetProductsQuery();
 
   const { pageNumber } = useParams();
-  
   // paginate products, data: products, currentPage, pages
   const { data, isLoading, error } = useGetProductsQuery(pageNumber);
 
@@ -33,6 +33,9 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
+
+          {/* paginate page bar */}
+          <Paginate pages={data.pages} currentPage={data.currentPage} />
         </>
       )}
     </>
